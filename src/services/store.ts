@@ -1,23 +1,35 @@
-import { configureStore } from '@reduxjs/toolkit';
-
+import { combineSlices, configureStore } from '@reduxjs/toolkit';
 import {
   TypedUseSelectorHook,
-  useDispatch as dispatchHook,
-  useSelector as selectorHook
+  useDispatch as useReduxDispatch,
+  useSelector as useReduxSelector
 } from 'react-redux';
 
-const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
+import { IngredientsSlice } from './slices/IngredientsSlice';
+import { ConstructorSlice } from './slices/ConstructorSlice';
+import { FeedSlice } from './slices/FeedSlice';
+import { OrderSlice } from './slices/OrderSlice';
+import { UserSlice } from './slices/UserSlice';
+import { ProfileOrdersSlice } from './slices/ProfileOrdersSlice';
 
-const store = configureStore({
+export const rootReducer = combineSlices(
+  IngredientsSlice,
+  ConstructorSlice,
+  FeedSlice,
+  OrderSlice,
+  UserSlice,
+  ProfileOrdersSlice
+);
+
+export const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
-
 export type AppDispatch = typeof store.dispatch;
 
-export const useDispatch: () => AppDispatch = () => dispatchHook();
-export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
+export const useDispatch: () => AppDispatch = () => useReduxDispatch();
+export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
 
 export default store;

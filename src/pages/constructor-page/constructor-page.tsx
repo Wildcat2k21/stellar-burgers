@@ -7,9 +7,18 @@ import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
 
+import { selectIngredientsLoading } from '../../services/slices/IngredientsSlice';
+import { useDispatch } from '../../services/store';
+import { fetchIngredients } from '../../services/slices/IngredientsSlice';
+import { useEffect } from 'react';
+
 export const ConstructorPage: FC = () => {
-  /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
+  const isIngredientsLoading = useSelector(selectIngredientsLoading);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, []);
 
   return (
     <>
